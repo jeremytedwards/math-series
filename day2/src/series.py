@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import sys
+
 def sum_series(i, a=0, b=1):
     """returns the n-th value of the requested sequence fibonacci or lucas"""
     """defaults to fibonacci sequence"""
@@ -32,7 +34,7 @@ def lucas(n):
     return sum_series(n, 2, 1)
 
 
-if __name__ == "__main__":
+def main():
     print("This module defines functions that implement mathematical series.")
     print("...\n")
 
@@ -51,3 +53,7 @@ if __name__ == "__main__":
 
     print(">>> lucas(2)")
     print(lucas(2))
+
+
+if __name__ == "__main__":
+    sys.exit(main())
