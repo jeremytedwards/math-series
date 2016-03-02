@@ -42,5 +42,5 @@ SEQ_TABLE = [
 
 @pytest.mark.parametrize('n, a, b, result', SEQ_TABLE)
 def test_series(n, a, b, result):
-    from series import series
-    assert series(n, a, b) == result
+    from series import sum_series
+    assert sum_series(n, a, b) == result
