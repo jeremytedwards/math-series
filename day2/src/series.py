@@ -24,7 +24,7 @@ def sum_series(i, a=0, b=1):
 # 0, 1, 1, 2, 3, 5, 8, 13, 21 ....
 def fibonacci(n):
     """returns the n-th value of the requested sequence fibonacci sequence"""
-    return sum_series(n, 0, 1)
+    return sum_series(n)
 
 
 # return the 'n' value of the lucas sequence
