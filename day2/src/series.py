@@ -7,16 +7,13 @@ def sum_series(i, a=0, b=1):
     """defaults to fibonacci sequence"""
     if i == 1:
         return a
-    if i == 2:
+    elif i == 2:
         return b
-    if i == 3:
-        return a + b
-    if i > 3:
-        prevVals = [a, b]
+    else:
         for idx in range(i - 2):
-            total = prevVals[0] + prevVals[1]
-            prevVals[0] = prevVals[1]
-            prevVals[1] = total
+            total = a + b
+            a = b
+            b = total
         return total
 
 
