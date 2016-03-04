@@ -4,10 +4,10 @@ import sys
 import re
 
 # TODO: look at __future__ for handling input between py27 and py35
-# try:
-#     input = raw_input
-# except NameError:
-#     pass
+try:
+    input = raw_input
+except NameError:
+    pass
 
 
 # Below Dictionary is for testing, pre-seeds some data
@@ -19,9 +19,26 @@ DONOR_DICT = {
 }
 
 # DONOR_DICT = {}
-DEFAULT_TY_EMAIL = "\nThanks {name},\n\nYou are the best donor we have.\n\nSrsly,\n\nMr. Nice Guy\n"
-DEFAULT_DONATION_EMAIL = "\nThanks {name},\n\nYour donation was critical to our success.\n\nThanks,\n\nMr. Nice Guy\n"
 DEFAULT_MENU = "'send a thank you’ or ‘create a report’ or 'list' (type 'q' to quit)"
+
+DEFAULT_TY_EMAIL = "\n" \
+                   "Thanks {name},\n" \
+                   "\n" \
+                   "You are the best donor we have.\n" \
+                   "\n" \
+                   "Srsly,\n" \
+                   "\n" \
+                   "Mr. Nice Guy\n"
+
+DEFAULT_DONATION_EMAIL = "\n" \
+                         "Thanks {name},\n" \
+                         "\n" \
+                         "Your donation was critical to our success.\n" \
+                         "\n" \
+                         "Thanks,\n" \
+                         "\n" \
+                         "Mr. Nice Guy\n"
+
 
 
 ##########
@@ -86,22 +103,22 @@ def update_donation_ave(donor):
 ####################
 def send_reply_email(donor_name):
     """Prints the preformatted email, DEFAULT_TY_EMAIL, to the console"""
-    print DEFAULT_TY_EMAIL.format(name=donor_name)
+    print(DEFAULT_TY_EMAIL.format(name=donor_name))
 
 
 def send_donor_email(donor_name):
     """Prints the preformated email, DEFAULT_DONATION_EMAIL, to the console"""
-    print DEFAULT_DONATION_EMAIL.format(name=donor_name)
+    print(DEFAULT_DONATION_EMAIL.format(name=donor_name))
 
 
 def print_donors_names():
     """Print the list of donor to the console"""
     for donor in DONOR_DICT.keys():
-        print donor
+        print(donor)
 
 
 def print_sorted_donors_list():
-    '''
+    """
     This function iterates over each key in our DONOR_DICT in it's current state, sorts by the 'donation_total' from our
     {donor: values{}} and then prints out the results formatted to the console.
 
@@ -109,30 +126,30 @@ def print_sorted_donors_list():
 
     sorted(iterable, key) [is a built in Python function, takes an iterable and a key]
       'iterable' will be our current DONOR_DICT
-      'key=' will be a (key, value) tuple from iteritems()
+      'key=' will be a (key, value) tuple from items()
       'reverse=True' tells the sorted() to sort the values descending
 
-    DONOR_DICT.iteritems() [returns a (key, value) tuple, that gets passed to lambda(key, val)]
+    DONOR_DICT.items() [returns an itemview, (key, value) tuple, that gets passed to lambda(key, val)]
       'val' is the dictionary of values we tracked in our DONOR_DICT for the donor values {key: {val:values}}
       'donation_total' is the value in the nested dictionary that we wanted to sort by
-    '''
+    """
 
     sorted_list = []
 
-    for sorted_donation_item in sorted(
-        DONOR_DICT.iteritems(),
-        key=lambda (key, val): val['donation_total'],
-        reverse=True
-    ):
-        sorted_list.append(sorted_donation_item)
+    for donor_byDonation_desc in sorted(DONOR_DICT.items(), key=lambda val: val[1]['donation_total'], reverse=True):
+        sorted_list.append(donor_byDonation_desc)
 
     # Print the above sorted_list of values
     # Include Donor Name, total donated, number of donations and average donation amount as values in each row.
     print("\n")
-    print "{:<15} {:<15} {:<20} {:<15}".format('Donor Name', 'Donations', 'Average Donation', 'Total Donated')
-    print "{:<15} {:<15} {:<20} {:<15}".format('----------', '----------', '-----------------', '---------------')
+    print("{:<15} {:<15} {:<20} {:<15}".format('Donor Name', 'Donations', 'Average Donation', 'Total Donated'))
+    print("{:<15} {:<15} {:<20} {:<15}".format('----------', '----------', '-----------------', '---------------'))
     for k, v in sorted_list:
-        print "{:<15} {:<15} {:<20} {:<15}".format(k, v.get("donation_count"), v.get("donation_ave"), v.get("donation_total"))
+        print("{:<15} {:<15} {:<20} {:<15}".format(
+            k, v.get("donation_count"),
+            v.get("donation_ave"),
+            v.get("donation_total")
+        ))
     print("\n")
 
 
@@ -141,7 +158,7 @@ def print_sorted_donors_list():
 ####################
 def ask_for_input(question, validator=True):
     """Will ask any 'question' passed and validate it against the list of possible answers in validate_input()"""
-    usr_input = raw_input("\n" + question + "\n>>> ")
+    usr_input = input("\n" + question + "\n>>> ")
     if validator:
         return validate_input(usr_input)
     else:
@@ -157,7 +174,7 @@ def check_name(fullname):
             add_donor_to_report(fullname)
             dollars = ask_for_input("How much did this user donate?", False)
             if dollars:
-                set_donation_total(fullname, dollars)
+                update_donation_total(fullname, dollars)
             return True
         else:
             return False
