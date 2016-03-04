@@ -20,8 +20,8 @@ DONOR_DICT = {
     "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
 }
 
-DEFAULT_TY_EMAIL = "\nThanks dooder {name},\n You are the best donor we have.\n\nSrsly,\n\nMr. Nice Guy\n"
-DEFAULT_DONATION_EMAIL = "\nThanks dooder {name},\n Your donation was critical to our success.\n\nSrsly,\n\nMr. Nice Guy\n"
+DEFAULT_TY_EMAIL = "\nThanks {name},\n\nYou are the best donor we have.\n\nSrsly,\n\nMr. Nice Guy\n"
+DEFAULT_DONATION_EMAIL = "\nThanks {name},\n\nYour donation was critical to our success.\n\nThanks,\n\nMr. Nice Guy\n"
 DEFAULT_MENU = "'send a thank you’ or ‘create a report’ or 'list' (type 'q' to quit)"
 
 
@@ -30,18 +30,20 @@ DEFAULT_MENU = "'send a thank you’ or ‘create a report’ or 'list' (type 'q
 ##########
 def add_donor_to_report(donor):
     DONOR_DICT.update({donor: {"donation_total": 0, "donation_ave": 0, "donation_count": 0}})
-    print DONOR_DICT
+    # print DONOR_DICT # Used for debugging
 
 
 def get_donation_total(donor):
-    return DONOR_DICT.get(donor).get("donation_total")
+    donor_attributes = DONOR_DICT.get(donor)
+    return donor_attributes.get("donation_total")
 
 
 def set_donation_total(donor, dollars):
     # TODO: try and extract the dollar amount from a string with numbers
     # str_dollars = re.findall(r"\d+", dollars)
 
-    total_dollars = DONOR_DICT.get(donor).get("donation_total") + int(dollars)
+    donor_attributes = DONOR_DICT.get(donor)
+    total_dollars = donor_attributes.get("donation_total") + int(dollars)
     DONOR_DICT.update({donor: {"donation_total": total_dollars}})
 
     set_donor_count(donor)
@@ -49,16 +51,21 @@ def set_donation_total(donor, dollars):
 
 
 def set_donor_count(donor):
+    hold = DONOR_DICT.get(donor)
+    print hold
+    print hold.get("donation_count")
     total_donation_count = DONOR_DICT.get(donor).get("donation_count") + 1
     DONOR_DICT.update({donor: {"donation_count": total_donation_count}})
 
 
 def get_donation_ave(donor):
-    return DONOR_DICT.get(donor).get("donation_ave")
+    donor_attributes = DONOR_DICT.get(donor)
+    return donor_attributes.get("donation_ave")
 
 
 def set_donation_ave(donor):
-    donation_average = DONOR_DICT.get(donor).get("donation_ave") / DONOR_DICT.get(donor).get("donation_count")
+    donor_attributes = DONOR_DICT.get(donor)
+    donation_average = donor_attributes.get("donation_ave") / donor_attributes.get("donation_count")
     DONOR_DICT.update({donor: {"donation_ave": donation_average}})
 
 
@@ -86,7 +93,7 @@ def print_sorted_donors_list():
 
     '''
     sorted(iterable, key) a built in Python function, takes an iterable and a key
-    so we're going to interate over each key in our DONOR_DICT and sort by the 'donation_count' from our donor of values
+    so we're going to interate over each key in our DONOR_DICT and sort by the 'donation_total' from our donor of values
 
     DONOR_DICT.iteritems() returns a (key, value) tuple, that gets passed to lambda (key, val)
     'val' is the dictionary of values we tracked in our DONOR_DICT for the values {key: {val:values}}
@@ -119,7 +126,7 @@ def ask_for_input(question, validator=True):
 def check_name(fullname):
     in_the_report = validate_the_fullname(fullname)
     if not in_the_report:
-        yn_name = ask_for_input("{name} is not in the report, would you like to add them? (y/n)".format(name=fullname))
+        yn_name = ask_for_input("{name} is not in the report, would you like to add them? ('y'/'n' or 'q' to quit)".format(name=fullname))
         if yn_name:
             add_donor_to_report(fullname)
             dollars = ask_for_input("How much did this user donate?", False)
@@ -134,7 +141,7 @@ def check_name(fullname):
 
 
 def send_a_thank_you():
-        full_name = ask_for_input('Enter the first and last name of the donor: (First Last)', False)
+        full_name = ask_for_input("Enter the first and last name of the donor: (First Last)", False)
         valid = check_name(full_name)
 
         if valid:
@@ -147,11 +154,11 @@ def send_a_thank_you():
 ####################
 def validate_input(response):
     if response.lower() == 'send a thank you':
-
         send_a_thank_you()
         ask_for_input(DEFAULT_MENU)
     elif response.lower() == 'create a report':
         print_sorted_donors_list()
+        ask_for_input(DEFAULT_MENU)
     elif response.lower() == 'list':
         print_donors_names()
         ask_for_input(DEFAULT_MENU)
@@ -193,15 +200,19 @@ DONE: If the user types a name in the list, use it.
 DONE: Once a name has been selected, prompt for a donation amount.
 
 TODO: Verify that the amount is in fact a number, and re-prompt if it isn’t.
+
 DONE: Once an amount has been given, add that amount to the donation history of the selected user.
-TODO: Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email to the terminal and return to the original prompt.
+DONE: Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email
+to the terminal and return to the original prompt.
 
 DONE: You need not persist the new donors when the script quits running.
 
 DONE: If the user (you) selected ‘Create a Report’ Print a list of your donors, sorted by total historical donation amount.
 DONE: Include Donor Name, total donated, number of donations and average donation amount as values in each row.
-DONE: Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in each column should align with those above and below)
-TODO: After printing this report, return to the original prompt.
+DONE: Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in
+each column should align with those above and below)
+
+DONE: After printing this report, return to the original prompt.
 
 TODO: At any point, the user should be able to quit their current task and return to the original prompt.
 DONE: From the original prompt, the user should be able to quit the script cleanly.
