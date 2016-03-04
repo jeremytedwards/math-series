@@ -10,8 +10,18 @@ import re
 #     pass
 
 
-DONOR_DICT = {}
+# DONOR_DICT = {}
+
+DONOR_DICT = {
+    "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
+    "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
+    "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
+    "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
+
+}
+
 DEFAULT_TY_EMAIL = "\nThanks dooder {name},\n You are the best donor we have.\n\nSrsly,\n\nMr. Nice Guy\n"
+DEFAULT_DONATION_EMAIL = "\nThanks dooder {name},\n Your donation was critical to our success.\n\nSrsly,\n\nMr. Nice Guy\n"
 DEFAULT_MENU = "'send a thank you’ or ‘create a report’ or 'list' (type 'q' to quit)"
 
 
@@ -44,11 +54,10 @@ def set_donation_total(donor, dollars):
 def get_donation_ave():
     return DONOR_DICT.get("donation_ave")
 
-def set_donation_ave(donation_value):
+def set_donation_ave(donor):
     holder = DONOR_DICT.get(donor)
     donation_average = holder.get("donation_ave") / holder.get("donation_count")
     DONOR_DICT.update({donor: {"donation_ave": donation_average}})
-
 
 
 ##########
@@ -58,20 +67,27 @@ def send_reply_email(donor_name):
     # TODO: Review Formatter
     print DEFAULT_TY_EMAIL.format(name=donor_name)
 
+def send_donor_email(donor_name):
+    # TODO: Review Formatter
+    print DEFAULT_DONATION_EMAIL.format(name=donor_name)
+
 def print_donors_names():
     for donor in DONOR_DICT.keys():
         print donor
 
 
-# def print_sorted_donors_list(donor_list, sort):
-#     # sort by donation amount desc
-#     sorted_donor_dollars = donor_list.sort(donor_list.values(), sort)
-#
-#     #Include Donor Name, total donated, number of donations and average donation amount as values in each row.
-#     #Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in each column should align with those above and below)
-#
-#     print(sorted_donor_dollars)
-#     return None
+def print_sorted_donors_list(sort="desc"):
+    #Include Donor Name, total donated, number of donations and average donation amount as values in each row.
+
+    for sorted_donation_count in sorted(DONOR_DICT.iteritems(), key=lambda (x, y): y['donation_count']):
+        print(sorted_donation_count)
+
+    # TODO: Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in each column should align with those above and below)
+    # print "{:<15} {:<15} {:<20} {:<15}".format('Donor', 'Donations', 'Average Donation', 'Total Donated')
+    # print "{:<15} {:<15} {:<20} {:<15}".format('----------', '----------', '--------------------', '----------')
+    # for k, v in sorted_donation_count:
+    #     donation_count, donation_ave, donation_total = v
+    #     print "{:<15} {:<15} {:<20} {:<15}".format(k, donation_count, donation_ave, donation_total)   # donation_count, donation_ave, donation_total
 
 
 ##########
@@ -116,13 +132,14 @@ def send_a_thank_you():
 ##########
 def validate_input(response):
     if response.lower() == 'send a thank you':
+
         send_a_thank_you()
         ask_for_input(DEFAULT_MENU)
-    # elif response.lower() == 'create a report':
-    #      create_a_report()
+    elif response.lower() == 'create a report':
+        print_sorted_donors_list()
     elif response.lower() == 'list':
-         print_donors_names()
-         ask_for_input(DEFAULT_MENU)
+        print_donors_names()
+        ask_for_input(DEFAULT_MENU)
     elif response.lower() == 'y':
         return True
     elif response.lower() == 'n':
@@ -148,7 +165,7 @@ def main():
 if __name__ == "__main__":
     sys.exit(main())
 
-
+'''
 #The script should have a data structure that holds a list of your donors and a history of the amounts they have donated.
 #When run, the script should prompt the user to choose from a menu of 2 actions: ‘Send a Thank You’ or ‘Create a Report’.
 #If the user selects ‘Send a Thank You’, prompt for a Full Name.
@@ -157,16 +174,21 @@ if __name__ == "__main__":
 #If the user types a name not in the list, add that name to the data structure and use it.
 #If the user types a name in the list, use it.
 
-"""Once a name has been selected, prompt for a donation amount.
+#Once a name has been selected, prompt for a donation amount.
+
 Verify that the amount is in fact a number, and re-prompt if it isn’t.
-Once an amount has been given, add that amount to the donation history of the selected user.
+
+#Once an amount has been given, add that amount to the donation history of the selected user.
+
 Finally, use string formatting to compose an email thanking the donor for their generous donation. Print the email to the terminal and return to the original prompt.
-You need not persist the new donors when the script quits running.
+
+#You need not persist the new donors when the script quits running.
 
 If the user (you) selected ‘Create a Report’ Print a list of your donors, sorted by total historical donation amount.
 Include Donor Name, total donated, number of donations and average donation amount as values in each row.
 Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in each column should align with those above and below)
 After printing this report, return to the original prompt.
-At any point, the user should be able to quit their current task and return to the original prompt.
-From the original prompt, the user should be able to quit the script cleanly.
-"""
+
+#At any point, the user should be able to quit their current task and return to the original prompt.
+#From the original prompt, the user should be able to quit the script cleanly.
+'''
