@@ -18,6 +18,7 @@ DONOR_DICT = {
     "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
     "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
     "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
+    "New Guy": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
 }
 
 DEFAULT_TY_EMAIL = "\nThanks {name},\n\nYou are the best donor we have.\n\nSrsly,\n\nMr. Nice Guy\n"
@@ -43,19 +44,33 @@ def set_donation_total(donor, dollars):
     # str_dollars = re.findall(r"\d+", dollars)
 
     donor_attributes = DONOR_DICT.get(donor)
+
+    donation_ave = donor_attributes.get("donation_ave")
+    donation_count = donor_attributes.get("donation_count")
     total_dollars = donor_attributes.get("donation_total") + int(dollars)
-    DONOR_DICT.update({donor: {"donation_total": total_dollars}})
 
-    set_donor_count(donor)
-    set_donation_ave(donor)
+    DONOR_DICT.update({donor: {
+        "donation_total": total_dollars,
+        "donation_ave": donation_ave,
+        "donation_count": donation_count
+    }})
+
+    update_donor_count(donor)
+    update_donation_ave(donor)
 
 
-def set_donor_count(donor):
-    hold = DONOR_DICT.get(donor)
-    print hold
-    print hold.get("donation_count")
-    total_donation_count = DONOR_DICT.get(donor).get("donation_count") + 1
-    DONOR_DICT.update({donor: {"donation_count": total_donation_count}})
+def update_donor_count(donor, add_by=1):
+    donor_attributes = DONOR_DICT.get(donor)
+
+    donation_ave = donor_attributes.get("donation_ave")
+    donation_count = donor_attributes.get("donation_count") + int(add_by)
+    total_dollars = donor_attributes.get("donation_total")
+
+    DONOR_DICT.update({donor: {
+        "donation_total": total_dollars,
+        "donation_ave": donation_ave,
+        "donation_count": donation_count
+    }})
 
 
 def get_donation_ave(donor):
@@ -63,22 +78,28 @@ def get_donation_ave(donor):
     return donor_attributes.get("donation_ave")
 
 
-def set_donation_ave(donor):
+def update_donation_ave(donor):
     donor_attributes = DONOR_DICT.get(donor)
-    donation_average = donor_attributes.get("donation_ave") / donor_attributes.get("donation_count")
-    DONOR_DICT.update({donor: {"donation_ave": donation_average}})
+
+    donation_ave = donor_attributes.get("donation_ave") / donor_attributes.get("donation_count")
+    donation_count = donor_attributes.get("donation_count")
+    total_dollars = donor_attributes.get("donation_total")
+
+    DONOR_DICT.update({donor: {
+        "donation_total": total_dollars,
+        "donation_ave": donation_ave,
+        "donation_count": donation_count
+    }})
 
 
 ####################
 #   Outputs
 ####################
 def send_reply_email(donor_name):
-    # TODO: Review Formatter
     print DEFAULT_TY_EMAIL.format(name=donor_name)
 
 
 def send_donor_email(donor_name):
-    # TODO: Review Formatter
     print DEFAULT_DONATION_EMAIL.format(name=donor_name)
 
 
@@ -93,13 +114,13 @@ def print_sorted_donors_list():
 
     '''
     sorted(iterable, key) a built in Python function, takes an iterable and a key
-    so we're going to interate over each key in our DONOR_DICT and sort by the 'donation_total' from our donor of values
+    so we're going to iterate over each key in our DONOR_DICT and sort by the 'donation_total' from our donor of values
 
     DONOR_DICT.iteritems() returns a (key, value) tuple, that gets passed to lambda (key, val)
     'val' is the dictionary of values we tracked in our DONOR_DICT for the values {key: {val:values}}
     'donation_total' is the value in the nested dictionary that we wanted to sort by
     '''
-    for sorted_donation_count in sorted(DONOR_DICT.iteritems(), key=lambda (key, val): val['donation_total']):
+    for sorted_donation_count in sorted(DONOR_DICT.iteritems(), key=lambda (key, val): val['donation_total'], reverse=True):
         sorted_list.append(sorted_donation_count)
         # print(sorted_donation_count)   # used for debugging
 

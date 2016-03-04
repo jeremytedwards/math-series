@@ -5,7 +5,7 @@ import pytest
 ##########
 #   Getters and Setters
 ##########
-def test_add_donor_to_report(fn="Paul Rubens", result=None):
+def test_add_donor_to_report(fn="New Guy", result=None):
     from mrmadness import add_donor_to_report
     assert add_donor_to_report(fn) == result
 
@@ -17,10 +17,11 @@ def test_get_donation_total(fn="Michael Jackson", result=100000):
 
 # TODO: need to add regex to select numbers first before all test here will pass
 TEST_set_donation_total = {
-    # ("Paul Rubens", "$10000", 10000),
-    # ("Paul Rubens", "10,000", 10000),
-    # ("Paul Rubens", "$10000.00", 10000),
-    ("Paul Rubens", "10000", 10000)
+    # ("Paul Rubens", "$10000", None),
+    # ("Paul Rubens", "10,000", None),
+    # ("Paul Rubens", "$10000.00", None),
+    ("Paul Rubens", "10000", None)
+
 }
 
 @pytest.mark.parametrize("donor, fn, result", TEST_set_donation_total)
@@ -29,9 +30,9 @@ def test_set_donation_total(donor, fn, result):
     assert set_donation_total(donor, fn) == result
 
 
-def test_set_donor_count(fn="Paul Rubens", result=None):
-    from mrmadness import set_donor_count
-    assert set_donor_count(fn) == result
+def test_update_donor_count(fn="New Guy", result=None):
+    from mrmadness import update_donor_count
+    assert update_donor_count(fn) == result
 
 
 def test_get_donation_ave(fn="Peter Paul", result=10000):
@@ -39,9 +40,9 @@ def test_get_donation_ave(fn="Peter Paul", result=10000):
     assert get_donation_ave(fn) == result
 
 
-def test_set_donation_ave(fn="Michael Jackson", result=1000):
-    from mrmadness import set_donation_ave
-    assert set_donation_ave(fn) == result
+def test_update_donation_ave(fn="Michael Jackson", result=None):
+    from mrmadness import update_donation_ave
+    assert update_donation_ave(fn) == result
 
 
 
