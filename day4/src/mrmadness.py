@@ -76,18 +76,26 @@ def print_donors_names():
         print donor
 
 
-def print_sorted_donors_list(sort="desc"):
-    #Include Donor Name, total donated, number of donations and average donation amount as values in each row.
+def print_sorted_donors_list():
 
-    for sorted_donation_count in sorted(DONOR_DICT.iteritems(), key=lambda (x, y): y['donation_count']):
+    # Sort the DONOR_DICT to temp list sorted_list[]
+    sorted_list = []
+
+    # iteritems() returns a (key, value) tuple, that gets passed to lambda (donor, sortable): sortable['donation_count']
+    # sortable['donation_count'] is the value (my nested dictionary, keyed by the donor), and donation_count is the
+    # item by which I want to sort on.
+    for sorted_donation_count in sorted(DONOR_DICT.iteritems(), key=lambda (donor, sortable): sortable['donation_count']):
         print(sorted_donation_count)
+        sorted_list.append(sorted_donation_count)
 
-    # TODO: Using string formatting, format the output rows as nicely as possible. The end result should be tabular (values in each column should align with those above and below)
-    # print "{:<15} {:<15} {:<20} {:<15}".format('Donor', 'Donations', 'Average Donation', 'Total Donated')
-    # print "{:<15} {:<15} {:<20} {:<15}".format('----------', '----------', '--------------------', '----------')
-    # for k, v in sorted_donation_count:
-    #     donation_count, donation_ave, donation_total = v
-    #     print "{:<15} {:<15} {:<20} {:<15}".format(k, donation_count, donation_ave, donation_total)   # donation_count, donation_ave, donation_total
+    # TODO: Print the formatted list
+    # Include Donor Name, total donated, number of donations and average donation amount as values in each row.
+    print "{:<15} {:<15} {:<20} {:<15}".format('Donor', 'Donations', 'Average Donation', 'Total Donated')
+    print "{:<15} {:<15} {:<20} {:<15}".format('----------', '----------', '-----------------', '----------')
+    for k, v in sorted_list:
+        print v
+        donation_count, donation_ave, donation_total = v
+        print "{:<15} {:<15} {:<20} {:<15}".format(k, donation_count, donation_ave, donation_total)   # donation_count, donation_ave, donation_total
 
 
 ##########
