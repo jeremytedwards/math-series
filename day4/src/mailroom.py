@@ -119,7 +119,11 @@ def print_sorted_donors_list():
 
     sorted_list = []
 
-    for sorted_donation_item in sorted(DONOR_DICT.iteritems(), key=lambda (key, val): val['donation_total'], reverse=True):
+    for sorted_donation_item in sorted(
+        DONOR_DICT.iteritems(),
+        key=lambda (key, val): val['donation_total'],
+        reverse=True
+    ):
         sorted_list.append(sorted_donation_item)
 
     # Print the above sorted_list of values

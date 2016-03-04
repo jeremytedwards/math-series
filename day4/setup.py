@@ -10,7 +10,7 @@ setup(
     author_email="jeremytedwards@gmail.com",
     maintainer="Jeremy Edwards",
     license="MIT",
-    py_modules=["mrmaddness"],
+    py_modules=["mailroom"],
     package_dir={"": "src"},
     install_requires=[],
     extras_require={'test': ['pytest', "pytest-xdist", "tox"]},

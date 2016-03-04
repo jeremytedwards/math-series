@@ -13,19 +13,25 @@ DONOR_DICT = {
 }
 
 TEST_add_donor_to_report = {
-    ("Sally Struthers", {}),
-    ("Samsonite", {}),
-    ("New Guy", {}),
+    ("Sally Struthers"),
+    ("Samsonite"),
+    ("New Guy"),
 }
-@pytest.mark.parametrize("donor, data", TEST_add_donor_to_report)
-def test_add_donor_to_report(donor, data):
-    from mrmadness import add_donor_to_report
+@pytest.mark.parametrize("donor", TEST_add_donor_to_report)
+def test_add_donor_to_report(donor):
+    from mailroom import add_donor_to_report
+    data = {
+        "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
+        "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
+        "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
+        "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
+    }
     add_donor_to_report(donor)
     assert donor in data.keys()
 
 
 def test_get_donation_total(fn="Michael Jackson", result=100000):
-    from mrmadness import get_donation_total
+    from mailroom import get_donation_total
     assert get_donation_total(fn) == result
 
 
@@ -40,22 +46,22 @@ TEST_set_donation_total = {
 
 @pytest.mark.parametrize("donor, fn, result", TEST_set_donation_total)
 def test_set_donation_total(donor, fn, result):
-    from mrmadness import update_donation_total
+    from mailroom import update_donation_total
     assert update_donation_total(donor, fn) == result
 
 
 def test_update_donor_count(fn="Paul Rubens", result=None):
-    from mrmadness import update_donor_count
+    from mailroom import update_donor_count
     assert update_donor_count(fn) == result
 
 
 def test_get_donation_ave(fn="Peter Paul", result=10000):
-    from mrmadness import get_donation_ave
+    from mailroom import get_donation_ave
     assert get_donation_ave(fn) == result
 
 
 def test_update_donation_ave(fn="Michael Jackson", result=None):
-    from mrmadness import update_donation_ave
+    from mailroom import update_donation_ave
     assert update_donation_ave(fn) == result
 
 
@@ -66,22 +72,22 @@ def test_update_donation_ave(fn="Michael Jackson", result=None):
 #   Outputs
 ####################
 def test_send_reply_email(fn="Paul Rubens", result=None):
-    from mrmadness import send_reply_email
+    from mailroom import send_reply_email
     assert send_reply_email(fn) == result
 
 
 def test_send_donor_email(fn="Paul Rubens", result=None):
-    from mrmadness import send_donor_email
+    from mailroom import send_donor_email
     assert send_donor_email(fn) == result
 
 
 def test_print_donors_names(result=None):
-    from mrmadness import print_donors_names
+    from mailroom import print_donors_names
     assert print_donors_names() == result
 
 
 def test_print_sorted_donors_list(result=None):
-    from mrmadness import print_sorted_donors_list
+    from mailroom import print_sorted_donors_list
     assert print_sorted_donors_list() == result
 
 
@@ -125,7 +131,7 @@ TEST_validate_input = {
 }
 @pytest.mark.parametrize("fn, result", TEST_validate_input)
 def test_validate_input(fn, result):
-    from mrmadness import validate_input
+    from mailroom import validate_input
     assert validate_input(fn) == result
 
 
@@ -136,5 +142,5 @@ TEST_validate_the_fullname = {
 
 @pytest.mark.parametrize("fn, result", TEST_validate_the_fullname)
 def test_validate_the_fullname(fn, result):
-    from mrmadness import validate_the_fullname
+    from mailroom import validate_the_fullname
     assert validate_the_fullname(fn) == result
