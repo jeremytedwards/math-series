@@ -20,17 +20,17 @@ TEST_set_donation_total = {
     # ("Paul Rubens", "$10000", None),
     # ("Paul Rubens", "10,000", None),
     # ("Paul Rubens", "$10000.00", None),
-    ("Paul Rubens", "10000", None)
+    ("Paul Rubens", "10000", None),
 
 }
 
 @pytest.mark.parametrize("donor, fn, result", TEST_set_donation_total)
 def test_set_donation_total(donor, fn, result):
-    from mrmadness import set_donation_total
-    assert set_donation_total(donor, fn) == result
+    from mrmadness import update_donation_total
+    assert update_donation_total(donor, fn) == result
 
 
-def test_update_donor_count(fn="New Guy", result=None):
+def test_update_donor_count(fn="Paul Rubens", result=None):
     from mrmadness import update_donor_count
     assert update_donor_count(fn) == result
 
@@ -83,7 +83,7 @@ def test_print_sorted_donors_list(result=None):
 # Can't test since function waits for input
 # TEST_check_name = {
 #     ("Jeremy Edwards", False),
-#     ("Jeremy", False)
+#     ("Jeremy", False),
 # }
 #
 # @pytest.mark.parametrize("fn, result", TEST_check_name)
@@ -105,9 +105,9 @@ def test_print_sorted_donors_list(result=None):
 TEST_validate_input = {
     # ("send a thank you", "Enter the first and last name of the donor: (First Last)"),
     ("y", True),
-    ("n", False)
-    #("p", )
-    # ("q", "SystemExit: 1")
+    ("n", False),
+    #("p", ),
+    # ("q", "SystemExit: 1"),
 }
 
 @pytest.mark.parametrize("fn, result", TEST_validate_input)
@@ -118,7 +118,7 @@ def test_validate_input(fn, result):
 
 TEST_validate_the_fullname = {
     ("Paul Rubens", True),
-    ("Old Guy", False)
+    ("Old Guy", False),
 }
 
 @pytest.mark.parametrize("fn, result", TEST_validate_the_fullname)
