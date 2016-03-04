@@ -30,7 +30,6 @@ DEFAULT_MENU = "'send a thank you’ or ‘create a report’ or 'list' (type 'q
 def add_donor_to_report(donor):
     """Adds a donor with defaults to DONOR_DICT"""
     DONOR_DICT.update({donor: {"donation_total": 0, "donation_ave": 0, "donation_count": 0}})
-    # print DONOR_DICT # Used for debugging
 
 
 def get_donation_total(donor):
@@ -120,8 +119,8 @@ def print_sorted_donors_list():
 
     sorted_list = []
 
-    for sorted_donation_count in sorted(DONOR_DICT.iteritems(), key=lambda (key, val): val['donation_total'], reverse=True):
-        sorted_list.append(sorted_donation_count)
+    for sorted_donation_item in sorted(DONOR_DICT.iteritems(), key=lambda (key, val): val['donation_total'], reverse=True):
+        sorted_list.append(sorted_donation_item)
 
     # Print the above sorted_list of values
     # Include Donor Name, total donated, number of donations and average donation amount as values in each row.

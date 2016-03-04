@@ -5,9 +5,23 @@ import pytest
 ##########
 #   Getters and Setters
 ##########
-def test_add_donor_to_report(fn="New Guy", result=None):
+DONOR_DICT = {
+    "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
+    "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
+    "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
+    "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
+}
+
+TEST_add_donor_to_report = {
+    ("Sally Struthers", {}),
+    ("Samsonite", {}),
+    ("New Guy", {}),
+}
+@pytest.mark.parametrize("donor, data", TEST_add_donor_to_report)
+def test_add_donor_to_report(donor, data):
     from mrmadness import add_donor_to_report
-    assert add_donor_to_report(fn) == result
+    add_donor_to_report(donor)
+    assert donor in data.keys()
 
 
 def test_get_donation_total(fn="Michael Jackson", result=100000):
@@ -109,7 +123,6 @@ TEST_validate_input = {
     #("p", ),
     # ("q", "SystemExit: 1"),
 }
-
 @pytest.mark.parametrize("fn, result", TEST_validate_input)
 def test_validate_input(fn, result):
     from mrmadness import validate_input
