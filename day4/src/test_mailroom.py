@@ -5,13 +5,14 @@ import pytest
 ##########
 #   Getters and Setters
 ##########
-# DONOR_DICT = {
-#     "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
-#     "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
-#     "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
-#     "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
-# }
-#
+# def dd_global():
+#     return {
+#         "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
+#         "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
+#         "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
+#         "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
+#     }
+
 # TEST_add_donor_to_report = {
 #     ("Sally Struthers"),
 #     ("Samsonite"),
@@ -20,14 +21,8 @@ import pytest
 # @pytest.mark.parametrize("donor", TEST_add_donor_to_report)
 # def test_add_donor_to_report(donor):
 #     from mailroom import add_donor_to_report
-#     data = {
-#         "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
-#         "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
-#         "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
-#         "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
-#     }
 #     add_donor_to_report(donor)
-#     assert donor in data.keys()
+#     assert donor in dd_global.keys()
 
 
 def test_get_donation_total(fn="Michael Jackson", result=100000):

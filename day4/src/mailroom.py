@@ -119,8 +119,8 @@ def print_donors_names():
 
 def print_sorted_donors_list():
     """
-    This function iterates over each key in our DONOR_DICT in it's current state, sorts by the 'donation_total' from our
-    {donor: values{}} and then prints out the results formatted to the console.
+    This function iterates over each item in our DONOR_DICT in it's current state, sorts by the 'donation_total' from
+    our {donor: values{}} and then prints out the results formatted to the console.
 
     It will use a temp sorted_list[] for local sorting.
 
@@ -129,8 +129,8 @@ def print_sorted_donors_list():
       'key=' will be a (key, value) tuple from items()
       'reverse=True' tells the sorted() to sort the values descending
 
-    DONOR_DICT.items() [returns an itemview, (key, value) tuple, that gets passed to lambda(key, val)]
-      'val' is the dictionary of values we tracked in our DONOR_DICT for the donor values {key: {val:values}}
+    DONOR_DICT.items() [returns an itemview, (key, {value}) tuple, that gets passed to lambda val]
+      'val' is a donor with values we tracked in our DONOR_DICT a (key: {val:values})
       'donation_total' is the value in the nested dictionary that we wanted to sort by
     """
 
