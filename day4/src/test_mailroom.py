@@ -5,29 +5,29 @@ import pytest
 ##########
 #   Getters and Setters
 ##########
-# def dd_global():
-#     return {
-#         "Paul Rubens": {"donation_total": 100, "donation_ave": 100, "donation_count": 1},
-#         "Peter Paul": {"donation_total": 50000, "donation_ave": 10000, "donation_count": 5},
-#         "Jeremy Edwards": {"donation_total": 1000, "donation_ave": 1000, "donation_count": 1},
-#         "Michael Jackson": {"donation_total": 100000, "donation_ave": 1000, "donation_count": 100},
-#     }
-
-# TEST_add_donor_to_report = {
-#     ("Sally Struthers"),
-#     ("Samsonite"),
-#     ("New Guy"),
-# }
-# @pytest.mark.parametrize("donor", TEST_add_donor_to_report)
-# def test_add_donor_to_report(donor):
-#     from mailroom import add_donor_to_report
-#     add_donor_to_report(donor)
-#     assert donor in dd_global.keys()
+TEST_add_donor_to_report = {
+    ("Sally Struthers"),
+    ("Samsonite"),
+    ("New Guy"),
+}
+@pytest.mark.parametrize("donor", TEST_add_donor_to_report)
+def test_add_donor_to_report(donor):
+    from mailroom import add_donor_to_report
+    from mailroom import DONOR_DICT
+    add_donor_to_report(donor)
+    assert donor in DONOR_DICT.keys()
 
 
-def test_get_donation_total(fn="Michael Jackson", result=100000):
+TEST_get_donation_total = {
+    ("Michael Jackson", 100000),
+    ("Jeremy Edwards", 1000),
+    ("Peter Paul", 50000),
+    ("Paul Rubens", 100),
+}
+@pytest.mark.parametrize("donor, result", TEST_get_donation_total)
+def test_get_donation_total(donor, result):
     from mailroom import get_donation_total
-    assert get_donation_total(fn) == result
+    assert get_donation_total(donor) == result
 
 
 # TODO: need to add regex to select numbers first before all test here will pass
@@ -35,31 +35,57 @@ TEST_set_donation_total = {
     # ("Paul Rubens", "$10000", None),
     # ("Paul Rubens", "10,000", None),
     # ("Paul Rubens", "$10000.00", None),
-    ("Paul Rubens", "10000", None),
-
+    ("Paul Rubens", "100", 200),
+    ("Michael Jackson", "100000", 200000),
+    ("Jeremy Edwards", "1000", 2000),
 }
-
 @pytest.mark.parametrize("donor, fn, result", TEST_set_donation_total)
 def test_set_donation_total(donor, fn, result):
     from mailroom import update_donation_total
-    assert update_donation_total(donor, fn) == result
+    from mailroom import DONOR_DICT
+    update_donation_total(donor, fn)
+    assert DONOR_DICT.get(donor).get("donation_total") == result
 
 
-def test_update_donor_count(fn="Paul Rubens", result=None):
+# TODO: there is a problem here since the global variable is being used the other tests are updating the values
+# before hitting this test. need to look at how to use a local copy of the global then removing after each test
+TEST_update_donor_count = {
+    ("Paul Rubens", 3),
+    ("Peter Paul", 6),
+    ("Jeremy Edwards", 3),
+}
+@pytest.mark.parametrize("donor, result", TEST_update_donor_count)
+def test_update_donor_count(donor, result):
     from mailroom import update_donor_count
-    assert update_donor_count(fn) == result
+    from mailroom import DONOR_DICT
+    update_donor_count(donor)
+    assert DONOR_DICT.get(donor).get("donation_count") == result
 
 
-def test_get_donation_ave(fn="Peter Paul", result=10000):
+# TODO: there is a problem here since the global variable is being used the other tests are updating the values
+# before hitting this test. need to look at how to use a local copy of the global then removing after each test
+TEST_get_donation_ave = {
+    ("Paul Rubens", 50.0),
+    ("Michael Jackson", 9.900990099009901),
+    ("Jeremy Edwards", 500.0),
+}
+@pytest.mark.parametrize("donor, result", TEST_get_donation_ave)
+def test_get_donation_ave(donor, result):
     from mailroom import get_donation_ave
-    assert get_donation_ave(fn) == result
+    from mailroom import DONOR_DICT
+    assert DONOR_DICT.get(donor).get("donation_ave") == result
 
 
-def test_update_donation_ave(fn="Michael Jackson", result=None):
+TEST_update_donation_ave = {
+    ("Paul Rubens",  50.0),
+    ("Peter Paul", 10000),
+    ("Jeremy Edwards", 500.0),
+}
+@pytest.mark.parametrize("donor, result", TEST_update_donation_ave)
+def test_update_donation_ave(donor, result):
     from mailroom import update_donation_ave
-    assert update_donation_ave(fn) == result
-
-
+    from mailroom import DONOR_DICT
+    assert DONOR_DICT.get(donor).get("donation_ave") == result
 
 
 
