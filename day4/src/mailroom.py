@@ -86,7 +86,7 @@ def update_donor_count(donor, add_by=1):
 
 def get_donation_ave(donor):
     """Returns the donation_ave for a provided donor"""
-    return DONOR_DICT.get(donor).get("donation_ave")
+    return round(DONOR_DICT.get(donor).get("donation_ave"))
 
 
 def update_donation_ave(donor):

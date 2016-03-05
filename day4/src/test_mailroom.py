@@ -66,26 +66,26 @@ def test_update_donor_count(donor, result):
 # before hitting this test. need to look at how to use a local copy of the global then removing after each test
 TEST_get_donation_ave = {
     ("Paul Rubens", 50.0),
-    ("Michael Jackson", 9.900990099009901),
-    ("Jeremy Edwards", 500.0),
+    ("Michael Jackson", 10),
+    ("Jeremy Edwards", 500),
 }
 @pytest.mark.parametrize("donor, result", TEST_get_donation_ave)
 def test_get_donation_ave(donor, result):
     from mailroom import get_donation_ave
     from mailroom import DONOR_DICT
-    assert DONOR_DICT.get(donor).get("donation_ave") == result
+    assert round(DONOR_DICT.get(donor).get("donation_ave")) == result
 
 
 TEST_update_donation_ave = {
-    ("Paul Rubens",  50.0),
+    ("Paul Rubens",  50),
     ("Peter Paul", 10000),
-    ("Jeremy Edwards", 500.0),
+    ("Jeremy Edwards", 500),
 }
 @pytest.mark.parametrize("donor, result", TEST_update_donation_ave)
 def test_update_donation_ave(donor, result):
     from mailroom import update_donation_ave
     from mailroom import DONOR_DICT
-    assert DONOR_DICT.get(donor).get("donation_ave") == result
+    assert round(DONOR_DICT.get(donor).get("donation_ave")) == result
 
 
 
