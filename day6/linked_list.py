@@ -1,26 +1,25 @@
-class Node(object):
-    data = None
-    point = None
+# coding=utf-8
 
+class Node(object):
     def __init__(self, data=None, point=None):
         self.data = data
         self.point = point
 
 
-class LinkedList():
-        def __init__(self, data=None, point=None):
+class LinkedList(object):
+        def __init__(self):
             self.head = Node()
             self.head.point = self.head
             self.length = 0
-
-        def insert(self):
-            pass
 
         def pop(self):
             pass
 
         def size(self):
             return self.length
+
+        def insert(self):
+            pass
 
         def search(self, value):
             pass
